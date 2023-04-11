@@ -137,6 +137,14 @@
             "modal": false
         }
     },
+    "member": {
+        "builder": true,
+        "name": "Members Section",
+        "content": {
+            "heading": "text",
+            "subheading": "text"
+        }
+    },
     "mobile_app": {
         "builder": true,
         "no_selection": false,
