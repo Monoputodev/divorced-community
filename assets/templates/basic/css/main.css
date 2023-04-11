@@ -2072,7 +2072,7 @@ input:checked~label::before {
 .banner-account {
     background-color: hsl(var(--white));
     padding: 30px 20px;
-    border-radius: 10px;
+    /* border-radius: 10px; */
     box-shadow: var(--box-shadow);
 }
 
@@ -2903,7 +2903,7 @@ input:checked~label::before {
     aspect-ratio: 1;
     display: grid;
     place-items: center;
-    border-radius: 50% 0 50% 50%;
+    border-radius: 50px;
     background: rgb(var(--base));
     color: hsl(var(--white));
 }
@@ -3339,7 +3339,7 @@ html .ui-button.ui-state-disabled:active {
     width: 100%;
     aspect-ratio: 1;
     object-fit: cover;
-    border-radius: 50% 0 50% 50%;
+    border-radius: 15px;
 }
 
 .about-img__btn {
@@ -3563,7 +3563,7 @@ html .ui-button.ui-state-disabled:active {
     display: grid;
     place-items: center;
     border: 2px dashed hsl(var(--white));
-    border-radius: 50% 0 50% 50%;
+    border-radius: 50px;
     font-size: 24px;
     color: hsl(var(--white));
 }
@@ -5840,7 +5840,7 @@ html .ui-button.ui-state-disabled:active {
 }
 
 .section__para {
-    color: var(--light-color);
+    color: var(--dark-color);
 }
 
 .latest-bride {
@@ -6047,6 +6047,7 @@ html .ui-button.ui-state-disabled:active {
     margin-bottom: 12px;
     padding-bottom: 12px;
     border-bottom: 1px solid var(--border-color);
+    color: #212529;
 }
 
 .plan__body .list--base li:last-child {
@@ -7002,6 +7003,8 @@ p.grid-item__desc:after {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    border-radius: 50px;
+    border: 2px dotted #1072b9;
 }
 
 .blog-sidebar__card-content {
@@ -7683,4 +7686,7 @@ select.form-control.form--control.select2-auto-tokenize.select2-hidden-accessibl
 
 .select2-container--default .select2-selection--multiple .select2-selection__choice {
     margin-top: 8px !important;
+}
+img.img-fluid.w-100 {
+    border-radius: 10px;
 }

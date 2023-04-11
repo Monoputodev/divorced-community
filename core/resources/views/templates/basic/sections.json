@@ -69,6 +69,7 @@
             "button_text": "text"
         }
     },
+
     "package": {
         "builder": true,
         "name": "Package Section",
@@ -189,6 +190,7 @@
             "modal": false
         }
     },
+
     "faq": {
         "builder": true,
         "name": "FAQ Section",

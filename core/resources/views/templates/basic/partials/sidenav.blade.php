@@ -179,7 +179,7 @@
 </div>
 
 @push('script')
-    {{-- <script>
+    <script>
         (function($) {
             "use strict";
 
@@ -195,7 +195,7 @@
                 modal.modal('show');
             });
         })(jQuery);
-    </script> --}}
+    </script>
 @endpush
 
 @push('style')

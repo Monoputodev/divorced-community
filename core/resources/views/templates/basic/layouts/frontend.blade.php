@@ -4,7 +4,9 @@
 
     <div class="preloader">
         <div class="preloader__loader">
-            <i class="las la-heart"></i>
+            <img src="assets/images/preloader/loading.gif" alt="">
+            {{-- <img src="{{ getImage(getFilePath('preloader') . '/loading.gif') }}" alt=""> --}}
+            {{-- <i class="las la-heart"></i> --}}
         </div>
     </div>
     <div class="back-to-top">
