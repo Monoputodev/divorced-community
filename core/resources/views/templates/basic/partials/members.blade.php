@@ -4,7 +4,9 @@
             <div class="row">
                 <div class="col-md-4">
                     <div class="search__right-thumb">
-                        <a href="{{ route('user.member.profile.public', $member->id) }}"><img src="{{ getImage(getFilePath('userProfile') . '/' . $member->image, null, 'user') }}" alt="@lang('Member')"></a>
+                        <a href="{{ route('user.member.profile.public', $member->id) }}"><img
+                                src="{{ getImage(getFilePath('userProfile') . '/' . $member->image, null, 'user') }}"
+                                alt="@lang('Member')"></a>
                     </div>
                 </div>
                 <div class="col-md-8">
@@ -13,13 +15,15 @@
                             <div class="col-md-12">
                                 <div class="member-info d-flex justify-content-between align-items-center mb-2">
                                     <div>
-                                        <h5 class="member-info__name mt-0 mb-1"><a href="{{ route('user.member.profile.public', $member->id) }}"> {{ $member->fullname }}</a>
-                                        </h5>
-                                        <p class="member-info__id mb-0"> @lang('Member ID'):
+                                        {{-- <h5 class="member-info__name mt-0 mb-1"><a
+                                                href="{{ route('user.member.profile.public', $member->id) }}">
+                                                {{ $member->fullname }}</a>
+                                        </h5> --}}
+                                        <h5 class="member-info__name mt-0 mb-1"> @lang('Member ID'):
                                             <span>
                                                 {{ $member->profile_id }}
                                             </span>
-                                        </p>
+                                        </h5>
                                     </div>
                                     @if (@$member->limitation->package->price > 0)
                                         <span class="badge badge--green">{{ __('Premium') }}
@@ -61,11 +65,12 @@
                                     <div class="row member-details">
                                         <label class="col-5"><span>@lang('Language')</span></label>
                                         <span class="col-7">
-                                            @if ($member->basicInfo && count($member->basicInfo->language))
+                                            @if ($member->basicInfo && $member->basicInfo->language && count($member->basicInfo->language))
                                                 {{ implode(', ', $member->basicInfo->language) }}
                                             @else
                                                 @lang('N/A')
                                             @endif
+
                                         </span>
                                     </div>
                                     <div class="row member-details">
@@ -118,7 +123,8 @@
                                     </div>
                                     <div class="row member-details">
                                         <label class="col-5">
-                                            <span data-bs-toggle="tooltip" title="@lang('Permanent Address')">@lang('Per. Address')</span>
+                                            <span data-bs-toggle="tooltip"
+                                                title="@lang('Permanent Address')">@lang('Per. Address')</span>
                                         </label>
                                         <span class="col-7">
                                             @if (@$member->basicInfo->permanent_address)
@@ -142,34 +148,43 @@
                                                 <a class="base-color" href="javascript:void(0)">
                                                     <i class="fas fa-heart"></i>@lang('Interested')
                                                 </a>
-                                            @elseif(@$user &&
-                                                $member->interests->where('interesting_id', @$user->id)->where('status', 0)->first())
+                                            @elseif(
+                                                @$user &&
+                                                    $member->interests->where('interesting_id', @$user->id)->where('status', 0)->first())
                                                 <a class="base-color" href="#">
                                                     <i class="fas fa-heart"></i>@lang('Response to Interest')
                                                 </a>
-                                            @elseif(@$user &&
-                                                $member->interests->where('interesting_id', @$user->id)->where('status', 1)->first())
+                                            @elseif(
+                                                @$user &&
+                                                    $member->interests->where('interesting_id', @$user->id)->where('status', 1)->first())
                                                 <a class="base-color" href="#">
                                                     <i class="fas fa-heart"></i>@lang('You Accepted Interest')
                                                 </a>
                                             @else
-                                                <a class="interestExpressBtn" data-interesting_id="{{ $member->id }}" href="javascript:void(0)">
+                                                <a class="interestExpressBtn" data-interesting_id="{{ $member->id }}"
+                                                    href="javascript:void(0)">
                                                     <i class="fas fa-heart"></i>@lang('Interest')
                                                 </a>
                                             @endif
                                         </li>
                                         <li>
-                                            <a class="confirmationBtn ignore" data-action="{{ route('user.ignore', $member->id) }}" data-question="@lang('Are you sure, you want to ignore this member?')" href="javascript:void(0)">
+                                            <a class="confirmationBtn ignore"
+                                                data-action="{{ route('user.ignore', $member->id) }}"
+                                                data-question="@lang('Are you sure, you want to ignore this member?')" href="javascript:void(0)">
                                                 <i class="fas fa-user-times text--danger"></i>@lang('Ignore')
                                             </a>
                                         </li>
                                         <li>
                                             @if (@$user && $user->shortListedProfile->where('profile_id', $member->id)->first())
-                                                <a class="removeFromShortList" data-action="{{ route('user.remove.short.list') }}" data-profile_id="{{ $member->id }}" href="javascript:void(0)">
+                                                <a class="removeFromShortList"
+                                                    data-action="{{ route('user.remove.short.list') }}"
+                                                    data-profile_id="{{ $member->id }}" href="javascript:void(0)">
                                                     <i class="far fa-star"></i>@lang('Shortlisted')
                                                 </a>
                                             @else
-                                                <a class="addToShortList" data-action="{{ route('user.add.short.list') }}" data-profile_id="{{ $member->id }}" href="javascript:void(0)">
+                                                <a class="addToShortList"
+                                                    data-action="{{ route('user.add.short.list') }}"
+                                                    data-profile_id="{{ $member->id }}" href="javascript:void(0)">
                                                     <i class="far fa-star"></i>@lang('Shortlist')
                                                 </a>
                                             @endif
@@ -179,11 +194,15 @@
                                                 $report = $user ? $user->reports->where('complaint_id', $member->id)->first() : null;
                                             @endphp
                                             @if (@$user && $report)
-                                                <a class="text--danger reportedUser" data-report_reason="{{ __($report->reason) }}" data-report_title="{{ __($report->title) }}" href="javascript:void(0)">
+                                                <a class="text--danger reportedUser"
+                                                    data-report_reason="{{ __($report->reason) }}"
+                                                    data-report_title="{{ __($report->title) }}"
+                                                    href="javascript:void(0)">
                                                     <i class="fas fa-info-circle"></i>@lang('Reported')
                                                 </a>
                                             @else
-                                                <a href="javascript:void(0)" onclick="showReportModal({{ $member->id }})">
+                                                <a href="javascript:void(0)"
+                                                    onclick="showReportModal({{ $member->id }})">
                                                     <i class="fas fa-info-circle"></i>@lang('Report')
                                                 </a>
                                             @endif

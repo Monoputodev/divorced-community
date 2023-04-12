@@ -254,7 +254,36 @@
     }
     // Testimonial Slider End
 
-
+    // Member Slider
+    let memberSlider = $(".member-slider");
+    if (memberSlider) {
+      memberSlider.slick({
+        mobileFirst: true,
+        arrows: false,
+        autoplay: true,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        autoplaySpeed: 0,
+        dots: true,
+        speed: 1500,
+        autoplaySpeed: 2000,
+        responsive: [
+          {
+            breakpoint: 767,
+            settings: {
+              slidesToShow: 3.5,
+            },
+          },
+          {
+            breakpoint: 1199,
+            settings: {
+              slidesToShow: 4.5,
+            },
+          },
+        ],
+      });
+    }
+    // Member Slider End
 
     // Counter Up by Odometer
     let counterUp = $(".counter-card");

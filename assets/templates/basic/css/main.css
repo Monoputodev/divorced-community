@@ -7732,6 +7732,7 @@ img.img-fluid.w-100 {
     background-size: 120%;
     background-repeat: no-repeat;
     background-position: center center;
+    margin: 10px;
 }
 .card.card-has-bg:before {
     content: '';
@@ -7741,11 +7742,11 @@ img.img-fluid.w-100 {
     bottom: 0;
     left: 0;
     background: inherit;
-    -webkit-filter: grayscale(1);
+    /* -webkit-filter: grayscale(1); */
     -moz-filter: grayscale(100%);
     -ms-filter: grayscale(100%);
     -o-filter: grayscale(100%);
-    filter: grayscale(100%);
+    /* filter: grayscale(100%); */
 }
 .card.card-has-bg:hover {
     transform: scale(0.98);
@@ -7756,7 +7757,7 @@ img.img-fluid.w-100 {
 .card.card-has-bg:hover .card-img-overlay {
     transition: all 800ms cubic-bezier(0.19, 1, 0.22, 1);
     background: #234f6d;
-    background: linear-gradient(0deg, rgba(4, 69, 114, 0.5) 0%, rgba(4, 69, 114, 1) 100%);
+    background: linear-gradient(179deg, rgba(4, 69, 114, 0.5) 0%, rgb(0 0 0 / 80%) 100%);
 }
 .card .card-footer {
     background: none;
@@ -7780,7 +7781,7 @@ img.img-fluid.w-100 {
     transition: all 800ms cubic-bezier(0.19, 1, 0.22, 1);
 }
 .card .card-img-overlay {
-    transition: all 800ms cubic-bezier(0.19, 1, 0.22, 1);
-    background: #234f6d;
-    background: linear-gradient(0deg, rgba(35, 79, 109, 0.3785889355742297) 0%, rgba(69, 95, 113, 1) 100%);
+    /* transition: all 800ms cubic-bezier(0.19, 1, 0.22, 1); */
+    background: #2125297a;
+    /* background: linear-gradient(0deg, rgba(35, 79, 109, 0.3785889355742297) 0%, rgba(69, 95, 113, 1) 100%); */
 }
