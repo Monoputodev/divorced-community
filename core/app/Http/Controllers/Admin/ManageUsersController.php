@@ -6,9 +6,12 @@ use App\Constants\Status;
 use App\Http\Controllers\Controller;
 use App\Models\Deposit;
 use App\Models\NotificationLog;
+use App\Models\Package;
 use App\Models\PurchaseHistory;
 use App\Models\Report;
 use App\Models\User;
+use App\Models\UserLimitation;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -102,8 +105,8 @@ class ManageUsersController extends Controller
         $countries = json_decode(file_get_contents(resource_path('views/partials/country.json')));
 
         $reports = Report::where('complaint_id', $user->id)->where('status', Status::DISABLE)->first();
-
-        return view('admin.users.detail', compact('pageTitle', 'user', 'totalDeposit', 'totalPurchasedPackage', 'countries', 'reports'));
+$packages = Package::where('status', 1)->get();
+        return view('admin.users.detail', compact('pageTitle', 'user', 'totalDeposit', 'totalPurchasedPackage', 'countries', 'reports','packages'));
     }
 
     public function report($id)
@@ -153,6 +156,7 @@ class ManageUsersController extends Controller
 
     public function update(Request $request, $id)
     {
+    //  dd($request);
         $user = User::findOrFail($id);
         $countryData = json_decode(file_get_contents(resource_path('views/partials/country.json')));
         $countryArray   = (array)$countryData;
@@ -173,6 +177,8 @@ class ManageUsersController extends Controller
         $user->country_code = $countryCode;
         $user->firstname = $request->firstname;
         $user->lastname = $request->lastname;
+
+        // dd($newPackage);
         $user->email = $request->email;
         $user->address = [
             'address' => $request->address,
@@ -197,6 +203,44 @@ class ManageUsersController extends Controller
             $user->kv = 1;
         }
         $user->save();
+
+        $newPackage= $request->new_package;
+
+        $package = Package::where('id',$newPackage)->first();
+
+        $limitation = UserLimitation::where('user_id', $user->id)->first();
+        // dd($limitation);
+        if (!$limitation) {
+            $limitation = new UserLimitation();
+            $limitation->user_id = $user->id;
+        }
+        $limitation->package_id   = $package->id;
+        $planInterestExpressLimit = $package->interest_express_limit;
+        $planContactViewLimit     = $package->contact_view_limit;
+        if ($limitation->expire_date >= Carbon::now()->format('Y-m-d')) {
+            $interestExpressLimitCarry          = ($limitation->interest_express_limit != -1) ? $limitation->interest_express_limit : 0;
+            $limitation->interest_express_limit = ($planInterestExpressLimit != -1) ? $interestExpressLimitCarry + $planInterestExpressLimit : -1;
+
+            $contactViewLimitCarry          = ($limitation->contact_view_limit != -1) ? $limitation->contact_view_limit : 0;
+            $limitation->contact_view_limit = ($planContactViewLimit != -1) ? $contactViewLimitCarry + $planContactViewLimit : -1;
+        } else {
+            $limitation->interest_express_limit = $planInterestExpressLimit;
+            $limitation->contact_view_limit     = $planContactViewLimit;
+        }
+
+        $limitation->image_upload_limit = $package->image_upload_limit;
+        $limitation->validity_period    = $package->validity_period;
+        $limitation->expire_date        = Carbon::now()->addDays($package->validity_period);
+        $limitation->save();
+
+
+
+
+
+
+
+
+
 
         $notify[] = ['success', 'User details updated successfully'];
         return back()->withNotify($notify);

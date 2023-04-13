@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Constants\Status;
 use App\Models\AdminNotification;
+use App\Models\BasicInfo;
 use App\Models\Frontend;
 use App\Models\Language;
 use App\Models\Package;
@@ -150,6 +151,31 @@ $member = User::all();
         return view($this->activeTemplate . 'story_details', compact('story', 'pageTitle', 'popularStories', 'latestStories'));
     }
 
+    public function blogs()
+    {
+        $pageTitle = 'Blogs';
+        $blogs = Frontend::where('data_keys', 'blogs.element')->orderBy('id', 'desc')->paginate(getPaginate(28));
+        $page = Page::where('tempname', $this->activeTemplate)->where('slug', 'blogs')->firstOrFail();
+        $sections = $page->secs;
+
+        return view($this->activeTemplate . 'blogs', compact('pageTitle', 'blogs', 'sections'));
+    }
+
+    public function blogDetails($slug, $id)
+    {
+        $blog = Frontend::where('id', $id)->where('data_keys', 'blogs.element')->firstOrFail();
+        $dataValues = $blog->data_values;
+        $dataValues->total_view += 1;
+        $blog->data_values = $dataValues;
+        $blog->save();
+
+        $pageTitle = $blog->data_values->title;
+
+        $popularBlogs = Frontend::where('data_keys', 'blogs.element')->where('id', '!=', $id)->orderBy('data_values->total_view', 'desc')->limit(5)->get();
+        $latestBlogs = Frontend::where('data_keys', 'blogs.element')->where('id', '!=', $id)->orderBy('id', 'desc')->limit(5)->get();
+        return view($this->activeTemplate . 'blog_details', compact('blog', 'pageTitle', 'popularBlogs', 'latestBlogs'));
+    }
+
 
     public function members()
     {
@@ -169,13 +195,23 @@ $member = User::all();
         $countryData     = (array)json_decode(file_get_contents(resource_path('views/partials/country.json')));
         $countries       = array_column($countryData, 'country');
 
+        // dd($userData);
         $height['max'] = $userData['maxHeight'];
         $height['min'] = $userData['minHeight'];
 
         if ($height['min'] == $height['max']) {
             $height['min'] = 0;
         }
-        return view($this->activeTemplate . 'user.members.list', compact('pageTitle', 'user', 'members', 'maritalStatuses', 'religions', 'countries', 'height'));
+
+
+        $age['max'] = $userData['maxAge'];
+        $age['min'] = $userData['minAge'];
+
+        if ($age['min'] == $age['max']) {
+            $age['min'] = 0;
+        }
+
+        return view($this->activeTemplate . 'user.members.list', compact('pageTitle', 'user', 'members', 'maritalStatuses', 'religions', 'countries', 'height','age'));
     }
 
     protected function userData()
@@ -183,8 +219,16 @@ $member = User::all();
         $request = request();
         $userId    = auth()->id();
         $query = User::active();
+
+        $ages = BasicInfo::getMaxMinAge();
+
         $maxHeight = round(PhysicalAttribute::max('height')) ?? 0;
         $minHeight = round(PhysicalAttribute::min('height')) ?? 0;
+
+
+        $maxAge = $ages->maxAge ?? 0;
+        $minAge = $ages->minAge ?? 0;
+
         if ($userId) {
             $query = $query->whereDoesNtHave('ignoredProfile', function ($q) use ($userId) {
                 $q->where('ignored_id', $userId);
@@ -212,6 +256,20 @@ $member = User::all();
             if ($min != $minHeight || $max != $maxHeight) {
                 $query = $query->whereHas('physicalAttributes', function ($q) use ($min, $max) {
                     $q->whereBetween('height', [$min, $max]);
+                });
+            }
+        }
+        if ($request->age) {
+            if ($minAge == $maxAge) {
+                $minAge = 0;
+            }
+            $requestedAge = explode('-', $request->age);
+            $min = trim($requestedAge[0]);
+            $max = trim(rtrim($requestedAge[1], 'Ft'));
+
+            if ($min != $minAge || $max != $maxAge) {
+                $query = $query->whereHas('physicalAttributes', function ($q) use ($min, $max) {
+                    $q->whereBetween('age', [$min, $max]);
                 });
             }
         }
@@ -258,7 +316,7 @@ $member = User::all();
             });
         }
         $members = $query->with('physicalAttributes', 'limitation.package', 'basicInfo', 'interests')->orderBy('id', 'desc')->paginate(getPaginate(8));
-        return ['members' => $members, 'minHeight' => $minHeight, 'maxHeight' => $maxHeight];
+        return ['members' => $members, 'minHeight' => $minHeight, 'maxHeight' => $maxHeight,'minAge' => $minAge, 'maxAge' => $maxAge];
     }
 
 

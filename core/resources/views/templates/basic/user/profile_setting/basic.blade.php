@@ -73,7 +73,15 @@
                                          @foreach (@$user->basicInfo->language as $language)
                                              <option value="{{ $language }}" selected>{{ $language }}</option>
                                          @endforeach
-                                     @endif
+                                         @endif
+                                         @foreach ($langs as $language)
+                                     <option value="{{ $language->name }}">{{ $language->name }}</option>
+                                 @endforeach
+
+
+
+{{--
+                                      --}}
                                  </select>
                                  <label class="form--label">@lang('Languages')</label>
                              </div>

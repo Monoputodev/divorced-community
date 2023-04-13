@@ -1,7 +1,7 @@
 @php
     $bannerContent = getContent('banner.content', true);
     $bannerElement = getContent('banner.element', limit: 5);
-    
+
     $countryData = (array) json_decode(file_get_contents(resource_path('views/partials/country.json')));
     $countries = array_column($countryData, 'country');
     $maritalStatuses = App\Models\MaritalStatus::all();
@@ -87,28 +87,6 @@
                                             <option value="2">@lang('Bride')</option>
                                         </select>
                                         <label class="form--label">@lang('Looking For')</label>
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-6">
-                                    <div class="input--group">
-                                        <select class="form-control form--control" name="smoking_status">
-                                            <option value="">@lang('Select One')</option>
-                                            <option value="1">@lang('Smoker')</option>
-                                            <option value="0">@lang('Non-smoker')</option>
-                                        </select>
-                                        <label class="form--label">@lang('Smoking Habits')</label>
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-6">
-                                    <div class="input--group">
-                                        <select class="form-control form--control" name="drinking_status">
-                                            <option value="">@lang('Select One')</option>
-                                            <option value="1">@lang('Drunker')</option>
-                                            <option value="0">@lang('Non-drunker')</option>
-                                        </select>
-                                        <label class="form--label">@lang('Drinking Status')</label>
                                     </div>
                                 </div>
 

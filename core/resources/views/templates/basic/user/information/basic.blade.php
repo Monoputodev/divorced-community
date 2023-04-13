@@ -1,5 +1,6 @@
 @php
     $user = auth()->user();
+    $lang = App\Models\LangInfo::all();
 @endphp
 @extends($activeTemplate . 'layouts.frontend')
 @section('content')
@@ -63,8 +64,8 @@
                                 <div class="col-sm-6">
                                     <div class="input--group">
                                         <select class="form-control form--control select2-auto-tokenize" name="languages[]" multiple="multiple" placeholder="none" required>
-                                            @foreach (old('languages', []) as $oldLanguage)
-                                                <option value="{{ $oldLanguage }}" selected>{{ $oldLanguage }}</option>
+                                            @foreach ($lang as $Language)
+                                                <option value="{{ $Language->name }}">{{ $Language->name }}</option>
                                             @endforeach
                                         </select>
                                         <label class="form--label">@lang('Languages')</label>

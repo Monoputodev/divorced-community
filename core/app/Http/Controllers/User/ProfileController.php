@@ -12,6 +12,7 @@ use App\Models\PartnerExpectation;
 use App\Models\PhysicalAttribute;
 use App\Models\FamilyInfo;
 use App\Models\EducationInfo;
+use App\Models\LangInfo;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -26,10 +27,11 @@ class ProfileController extends Controller
         $userId = auth()->id();
         $user = User::with('basicInfo', 'partnerExpectation', 'physicalAttributes', 'family', 'careerInfo', 'educationInfo')->findOrFail($userId);
         $religions = ReligionInfo::get();
+        $langs = LangInfo::get();
         $maritalStatuses = MaritalStatus::get();
         $bloodGroups = BloodGroup::get();
         $countries = json_decode(file_get_contents(resource_path('views/partials/country.json')));
-        return view($this->activeTemplate . 'user.profile_setting.index', compact('pageTitle', 'user', 'religions', 'maritalStatuses', 'countries', 'bloodGroups'));
+        return view($this->activeTemplate . 'user.profile_setting.index', compact('pageTitle', 'user','langs', 'religions', 'maritalStatuses', 'countries', 'bloodGroups'));
     }
 
     public function updateProfile(Request $request)

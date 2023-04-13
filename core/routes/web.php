@@ -38,6 +38,9 @@ Route::controller('SiteController')->group(function () {
     Route::get('stories', 'stories')->name('stories');
     Route::get('story/{slug}/{id}', 'storyDetails')->name('story.details');
 
+    Route::get('blogs', 'blogs')->name('blogs');
+    Route::get('blog/{slug}/{id}', 'blogDetails')->name('blog.details');
+
     Route::get('policy/{slug}/{id}', 'policyPages')->name('policy.pages');
 
     Route::get('placeholder-image/{size}', 'placeholderImage')->name('placeholder.image');

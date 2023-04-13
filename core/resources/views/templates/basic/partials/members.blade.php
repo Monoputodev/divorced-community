@@ -47,13 +47,9 @@
                                         <label class="col-5"><span>@lang('Age')</span></label>
                                         <span class="col-7">
                                             @php
-                                                if (@$member->basicInfo->birth_date) {
-                                                    $age = now()->diffInYears($member->birth_date) . ' Years';
-                                                } else {
-                                                    $age = __('N/A');
-                                                }
-                                            @endphp
-                                            {{ __($age) }}
+                    $age = now()->diffInYears(@$member->basicInfo->birth_date);
+                @endphp
+                {{ $age ? $age . ' ' . __('Years') : __('N/A') }}
                                         </span>
                                     </div>
                                     <div class="row member-details">
@@ -128,7 +124,7 @@
                                         </label>
                                         <span class="col-7">
                                             @if (@$member->basicInfo->permanent_address)
-                                                {{ __(@$member->basicInfo->permanssent_address->city) }}
+                                                {{ __(@$member->basicInfo->permanent_address->city) }}
                                                 @if (@$member->basicInfo->permanent_address->city)
                                                     ,
                                                 @endif

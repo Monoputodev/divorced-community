@@ -2,6 +2,7 @@
 
 @section('panel')
     <div class="row gy-4">
+
         <div class="col-xxl-3 col-sm-6">
             <div class="card bg--primary has-link overflow-hidden box--shadow2">
                 <div class="card-body">
@@ -229,6 +230,23 @@
                                 <label>@lang('KYC') </label>
                                 <input @if ($user->kv == 1) checked @endif data-bs-toggle="toggle" data-height="50" data-off="@lang('Unverified')" data-offstyle="-danger" data-on="@lang('Verified')" data-onstyle="-success" data-width="100%" name="kv" type="checkbox">
                             </div>
+
+                            {{-- $user->limitation->package->name --}}
+                                <div class="form-group col-xl-4 col-md-4 col-12">
+                                    <label>@lang('Assign a Package')</label>
+                                    <select class="form-control" name="new_package">
+                                        @foreach ($packages as $package)
+                                            <option
+
+                                            @if ($user->limitation->package_id == $package->id)
+selected
+                                            @endif
+
+                                            value="{{ __($package->id) }}">{{ __($package->name) }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
                         </div>
 
                         <div class="row mt-4">

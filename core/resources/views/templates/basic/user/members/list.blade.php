@@ -33,6 +33,17 @@
                                     </div>
                                 </div>
 
+
+                                <div class="col-md-12 mt-4">
+                                    <div class="range-slider">
+                                        <p>
+                                            <label class="range-slider__label" for="age">@lang('Age'):</label>
+                                            <input class="range-slider__number" id="age" name="age" type="number" readonly>
+                                        </p>
+                                        <div id="slider-age"></div>
+                                    </div>
+                                </div>
+
                                 <div class="col-sm-12 mt-4">
                                     <div class="input--group">
                                         <select class="form-control form--control" name="looking_for">
@@ -93,27 +104,6 @@
                                     </div>
                                 </div>
 
-                                <div class="col-sm-12 mt-4">
-                                    <div class="input--group">
-                                        <select class="form-control form--control" name="smoking_status">
-                                            <option value="">@lang('All')</option>
-                                            <option value="1" @selected(request()->smoking_status == 1)>@lang('Smoker')</option>
-                                            <option value="0" @selected(request()->smoking_status == 0)>@lang('Non-smoker')</option>
-                                        </select>
-                                        <label class="form--label">@lang('Smoking Habits')</label>
-                                    </div>
-                                </div>
-
-                                <div class="col-sm-12 mt-4">
-                                    <div class="input--group">
-                                        <select class="form-control form--control" name="drinking_status">
-                                            <option value="">@lang('All')</option>
-                                            <option value="1" @selected(request()->drinking_status == 1)>@lang('Drunker')</option>
-                                            <option value="0" @selected(request()->drinking_status == 0)>@lang('Non-drunker')</option>
-                                        </select>
-                                        <label class="form--label">@lang('Drinking Status')</label>
-                                    </div>
-                                </div>
                             </div>
                             <input name="page" type="hidden">
                         </form>
@@ -147,6 +137,83 @@
 @endsection
 
 @push('script')
+
+    <script>
+        (function($) {
+            "use strict";
+
+            let min = "{{ $age['min'] }}";
+            let max = "{{ $age['max'] }}";
+
+            let minAge = parseFloat(min);
+            let maxAge = Math.ceil(parseFloat(max));
+            //age range
+            $("#slider-age").slider({
+                range: true,
+                min: minAge,
+                max: maxAge,
+
+                values: [minAge, maxAge],
+                slide: function(event, ui) {
+                    $("#age").val("" + ui.values[0] + " - " + ui.values[1] + " Ft");
+                },
+                stop: function(event, ui) {
+                    $('.form-search').submit();
+                }
+            });
+            $("#age").val("" + $("#slider-age").slider("values", 0) +
+                " - " + $("#slider-age").slider("values", 1) + " Ft");
+
+
+            // search by ajax
+            let form = $('.form-search');
+            form.find('.form--control').on('focusout, change', function() {
+                form.find('[name=page]').val(0);
+                form.submit();
+            });
+
+            $(document).on('click', '.pagination .page-link', function(e) {
+                e.preventDefault();
+                if ($(this).parents('.page-item').hasClass('active')) {
+                    return false;
+                }
+
+                let page = $(this).attr('href').match(/page=([0-9]+)/)[1];
+                form.find('[name=page]').val(page);
+                form.submit();
+            });
+
+            form.on('submit', function(e) {
+                e.preventDefault();
+                let data = form.serialize();
+
+                let url = form.attr('action');
+                let wrapper = $('.member-wrapper');
+
+                $.ajax({
+                    type: "get",
+                    url: url,
+                    data: data,
+                    dataType: "json",
+                    beforeSend: function() {
+                        $(document).find('.search-overlay').removeClass('d-none');
+                    },
+                    success: function(response) {
+                        if (response.html) {
+                            wrapper.html(response.html);
+                        }
+                    },
+                    complete: function() {
+                        $(document).find('.search-overlay').addClass('d-none');
+                    },
+                });
+
+            })
+
+        })(jQuery);
+    </script>
+
+
     <script>
         (function($) {
             "use strict";

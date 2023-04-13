@@ -117,6 +117,27 @@
             "modal": false
         }
     },
+    "blogs": {
+        "builder": true,
+        "name": "Blog Section",
+        "content": {
+            "heading": "text",
+            "subheading": "text"
+        },
+        "element": {
+            "images": {
+                "image": {
+                    "size": "860x570",
+                    "thumb": "310x205"
+                }
+            },
+            "title": "text",
+            "total_view": "text",
+            "description": "textarea-nic",
+            "modal": false
+        }
+    },
+
     "testimonial": {
         "builder": true,
         "name": "Testimonial Section",
