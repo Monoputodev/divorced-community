@@ -1,6 +1,6 @@
 @php
     $memberContent = getContent('member.content', true);
-    $memberElement = App\Models\User::all();
+    $memberElement = App\Models\User::where('status',1)->get();
     $user = auth()->user();
 @endphp
 
@@ -19,18 +19,39 @@
         </div>
     </div>
 
+<style>
+     div.profile-card {
+        position: relative;
+    }
 
+    div.profile-card a.profile-link {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        text-decoration: none; /* No underlines on the link */
+        z-index: 10; /* Places the link above everything else in the div */
+        background-color: #FFF; /* Fix to make div clickable in IE */
+        opacity: 0; /* Fix to make div clickable in IE */
+        filter: alpha(opacity=1); /* Fix to make div clickable in IE */
+    }
+</style>
 
 
     <div class="container">
         <div class="row member-slider">
             @foreach ($memberElement as $member)
+
+            @if($member->limitation->package_id > 1)
                 <div class="m-3">
-                    <div class="card text-white card-has-bg click-col"
-                        style="background-image:url('{{ getImage(getFilePath('userProfile') . '/' . $member->image, null, 'user') }}');background-size:cover;background-repeat:no-repeat;">
+
+                    <div class="card text-white card-has-bg click-col profile-card"
+                        style="background-image:url('{{ getImage(getFilePath('userProfile') . '/' . $member->image, null, 'user') }}');background-size:cover;background-repeat:no-repeat;" >
+                        <a class="profile-link" href="{{ route('user.member.profile.public', $member->id) }}"></a>
                         <div class="card-img-overlay d-flex flex-column">
                             <div class="card-body">
-                                <h4 class="card-title mt-0 "><a class="text-white" herf="#">
+                                <h4 class="card-title mt-0 "><a class="text-white" herf="{{ route('user.member.profile.public', $member->id) }}">
                                         {{ $member->profile_id }}</a></h4>
 
                             </div>
@@ -107,7 +128,9 @@
                             </div>
                         </div>
                     </div>
+
                 </div>
+                @endif
             @endforeach
 
 

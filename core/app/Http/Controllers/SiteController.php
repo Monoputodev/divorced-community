@@ -18,6 +18,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\DB;
 
 class SiteController extends Controller
 {
@@ -264,12 +265,15 @@ $member = User::all();
                 $minAge = 0;
             }
             $requestedAge = explode('-', $request->age);
-            $min = trim($requestedAge[0]);
-            $max = trim(rtrim($requestedAge[1], 'Ft'));
+            $minAgeFilter = trim($requestedAge[0]);
+            $maxAgeFilter = trim(rtrim($requestedAge[1], 'Ft'));
 
-            if ($min != $minAge || $max != $maxAge) {
-                $query = $query->whereHas('physicalAttributes', function ($q) use ($min, $max) {
-                    $q->whereBetween('age', [$min, $max]);
+            if ($minAgeFilter != $minAge || $maxAgeFilter != $maxAge) {
+                $minBirthYear = date('Y') - $maxAgeFilter - 1;
+                $maxBirthYear = date('Y') - $minAgeFilter;
+
+                $query = $query->whereHas('basicInfo', function ($q) use ($minBirthYear, $maxBirthYear) {
+                    $q->whereBetween(DB::raw("(YEAR(CURRENT_DATE) - YEAR(birth_date))"), [$minBirthYear, $maxBirthYear]);
                 });
             }
         }

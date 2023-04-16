@@ -76,7 +76,7 @@ class ForgotPasswordController extends Controller
 
         $adminIpInfo = getIpInfo();
         $adminBrowser = osBrowser();
-        
+
         notify($admin, 'PASS_RESET_CODE', [
             'code' => $code,
             'operating_system' => $adminBrowser['os_platform'],

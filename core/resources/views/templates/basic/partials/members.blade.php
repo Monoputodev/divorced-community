@@ -47,9 +47,9 @@
                                         <label class="col-5"><span>@lang('Age')</span></label>
                                         <span class="col-7">
                                             @php
-                    $age = now()->diffInYears(@$member->basicInfo->birth_date);
-                @endphp
-                {{ $age ? $age . ' ' . __('Years') : __('N/A') }}
+                                                $age = now()->diffInYears(@$member->basicInfo->birth_date);
+                                            @endphp
+                                            {{ $age ? $age . ' ' . __('Years') : __('N/A') }}
                                         </span>
                                     </div>
                                     <div class="row member-details">
@@ -213,7 +213,9 @@
             </div>
         </div>
     </div>
-@empty
+
+ @empty
+
     <div class="col-md-12">
         <div class="search__right">
             <div class="row">

@@ -38,7 +38,7 @@
                                     <div class="range-slider">
                                         <p>
                                             <label class="range-slider__label" for="age">@lang('Age'):</label>
-                                            <input class="range-slider__number" id="age" name="age" type="number" readonly>
+                                            <input class="range-slider__number" id="age" name="age" type="text" readonly>
                                         </p>
                                         <div id="slider-age"></div>
                                     </div>
@@ -155,14 +155,14 @@
 
                 values: [minAge, maxAge],
                 slide: function(event, ui) {
-                    $("#age").val("" + ui.values[0] + " - " + ui.values[1] + " Ft");
+                    $("#age").val("" + ui.values[0] + " - " + ui.values[1] + " Yr");
                 },
                 stop: function(event, ui) {
                     $('.form-search').submit();
                 }
             });
             $("#age").val("" + $("#slider-age").slider("values", 0) +
-                " - " + $("#slider-age").slider("values", 1) + " Ft");
+                " - " + $("#slider-age").slider("values", 1) + " Yr");
 
 
             // search by ajax

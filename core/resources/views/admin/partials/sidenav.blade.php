@@ -157,6 +157,9 @@
                     </a>
                     <div class="sidebar-submenu {{ menuActive('admin.user.*', 2) }}">
                         <ul>
+
+
+
                             <li class="sidebar-menu-item {{ menuActive('admin.user.interests') }}">
                                 <a class="nav-link" href="{{ route('admin.user.interests') }}">
                                     <i class="menu-icon las la-dot-circle"></i>

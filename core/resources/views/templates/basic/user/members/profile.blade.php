@@ -16,8 +16,11 @@
                                         <div class="team-card__body p-3 text-start">
                                             <div class="profile-name-interest d-flex align-items-center justify-content-between flex-wrap">
                                                 <div class="profile-name">
+                                                    @if (auth::user()->limitation->package_id > 1)
                                                     <h5 class="dashboard-profile__name team-card__body-name mb-0 mt-0">
                                                         {{ $member->fullname }}</h5>
+                                                    @endif
+
                                                     <h6 class="dashboard-profile__id team-card__body-id my-2">
                                                         @lang('ID') :
                                                         {{ $member->profile_id }} </h6>
