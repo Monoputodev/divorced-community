@@ -157,9 +157,6 @@
                     </a>
                     <div class="sidebar-submenu {{ menuActive('admin.user.*', 2) }}">
                         <ul>
-
-
-
                             <li class="sidebar-menu-item {{ menuActive('admin.user.interests') }}">
                                 <a class="nav-link" href="{{ route('admin.user.interests') }}">
                                     <i class="menu-icon las la-dot-circle"></i>
@@ -543,10 +540,7 @@
                     </a>
                 </li>
             </ul>
-            <div class="text-uppercase mb-3 text-center">
-                <span class="text--primary">{{ __(systemDetails()['name']) }}</span>
-                <span class="text--success">@lang('V'){{ systemDetails()['version'] }} </span>
-            </div>
+
         </div>
     </div>
 </div>
